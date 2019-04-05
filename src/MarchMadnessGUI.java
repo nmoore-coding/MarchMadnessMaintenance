@@ -351,6 +351,12 @@ public class MarchMadnessGUI extends Application {
 
         Label message = new Label();
         loginPane.add(message, 1, 5);
+        
+        //added by Eliza
+        Button loginIns = new Button("Instructions");
+        loginIns.setOnAction(e->instructions());
+        loginPane.add(loginIns,1,5);
+        loginIns.setDefaultButton(true);
 
         signButton.setOnAction(event -> {
 
