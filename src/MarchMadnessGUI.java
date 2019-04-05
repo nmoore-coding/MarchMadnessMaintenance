@@ -28,6 +28,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
 /**
@@ -52,6 +53,8 @@ public class MarchMadnessGUI extends Application {
     private Button clearButton;
     private Button resetButton;
     private Button finalizeButton;
+        //added by Eliza
+    private TextFlow instructionsTxt;
     
     //allows you to navigate back to division selection screen
     private Button back;
@@ -292,6 +295,7 @@ public class MarchMadnessGUI extends Application {
         clearButton.setOnAction(e->clear());
         resetButton.setOnAction(e->reset());
         finalizeButton.setOnAction(e->finalizeBracket());
+        instructions.setOnAction(e->instructions());
         back.setOnAction(e->{
             bracketPane=new BracketPane(selectedBracket);
             displayPane(bracketPane);
@@ -518,6 +522,30 @@ public class MarchMadnessGUI extends Application {
             }
         }
         return list;
+    }
+        /**
+     * Eliza Doering 4/2019
+     */
+    private void instructions(){
+        
+        Text text = new Text();
+        String str = "March Madness is a basketball tournament. Use brackets to predict which teams will win.\n"
+                + "Click on the name of the team that you'd like to progress forward.\n"
+                + "You can do this either in induvidual division or the full one.\n"
+                + "Either way, completion of the bracket occurs in the full division.\n"
+                + "Once finished, click 'finalize' then click view scores to see how many points you received\n"
+                + "While playing, if you decide you want to change something click the clear button and it will clear\n"
+                + "the division that you are currently in! Have fun and good luck!\n";
+        text.setText(str);
+        instructionsTxt= new TextFlow();
+  
+        instructionsTxt.getChildren().addAll(text);
+        Stage stage = new Stage();
+        Scene scene = new Scene(instructionsTxt);
+        stage.setTitle("Instructions");
+        stage.setScene(scene);
+        stage.show();
+        
     }
        
 }
