@@ -53,8 +53,8 @@ public class MarchMadnessGUI extends Application {
     private Button clearButton;
     private Button resetButton;
     private Button finalizeButton;
-        //added by Eliza
-    private TextFlow instructionsTxt;
+    //added by Eliza
+    private Button instructions;
     
     //allows you to navigate back to division selection screen
     private Button back;
@@ -76,6 +76,8 @@ public class MarchMadnessGUI extends Application {
     private BracketPane bracketPane;
     private GridPane loginP;
     private TournamentInfo teamInfo;
+    //added by Eliza
+    private TextFlow instructionsTxt;
     
     
     @Override
@@ -110,7 +112,6 @@ public class MarchMadnessGUI extends Application {
         root.setTop(toolBar);   
         root.setBottom(btoolBar);
         Scene scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
         primaryStage.setMaximized(true);
 
         primaryStage.setTitle("March Madness Bracket Simulator");
@@ -158,6 +159,7 @@ public class MarchMadnessGUI extends Application {
         scoreBoardButton.setDisable(true);
         viewBracketButton.setDisable(true);
         btoolBar.setDisable(true);
+        instructions.setDisable(false);
         displayPane(loginP);
     }
     
@@ -198,7 +200,6 @@ public class MarchMadnessGUI extends Application {
      * for final4 reset Ro2 and winner
      */
     private void clear(){
-      
       
       bracketPane.clear();
       bracketPane=new BracketPane(selectedBracket);
@@ -266,6 +267,7 @@ public class MarchMadnessGUI extends Application {
         clearButton=new Button("Clear");
         resetButton=new Button("Reset");
         finalizeButton=new Button("Finalize");
+        instructions=new Button("Instructions");
         toolBar.getItems().addAll(
                 createSpacer(),
                 login,
@@ -279,6 +281,7 @@ public class MarchMadnessGUI extends Application {
                 clearButton,
                 resetButton,
                 finalizeButton,
+                instructions,
                 back=new Button("Choose Division"),
                 createSpacer()
         );
@@ -330,7 +333,6 @@ public class MarchMadnessGUI extends Application {
         loginPane.setPadding(new Insets(5, 5, 5, 5));
 
         Text welcomeMessage = new Text("March Madness Login Welcome");
-        welcomeMessage.getStyleClass().add("welcomeMessage");
         loginPane.add(welcomeMessage, 0, 0, 2, 1);
 
         Label userName = new Label("User Name: ");
@@ -357,7 +359,6 @@ public class MarchMadnessGUI extends Application {
         loginIns.setOnAction(e->instructions());
         loginPane.add(loginIns,1,5);
         loginIns.setDefaultButton(true);
-
         signButton.setOnAction(event -> {
 
             // the name user enter
@@ -529,7 +530,7 @@ public class MarchMadnessGUI extends Application {
         }
         return list;
     }
-        /**
+    /**
      * Eliza Doering 4/2019
      */
     private void instructions(){
@@ -551,7 +552,6 @@ public class MarchMadnessGUI extends Application {
         stage.setTitle("Instructions");
         stage.setScene(scene);
         stage.show();
-        
     }
        
 }
