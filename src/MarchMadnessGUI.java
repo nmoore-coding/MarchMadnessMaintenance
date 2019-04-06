@@ -28,7 +28,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
 /**
@@ -40,31 +39,29 @@ import javafx.stage.Stage;
  * @author Grant Osborn
  */
 public class MarchMadnessGUI extends Application {
-
-    //all the gui elements
+    
+    
+    //all the gui ellements
     private BorderPane root;
     private ToolBar toolBar;
     private ToolBar btoolBar;
     private Button simulate;
-    private Button login;
+    private Button logout;
     private Button scoreBoardButton;
     private Button viewBracketButton;
     private Button clearButton;
     private Button resetButton;
     private Button finalizeButton;
-
-    //added by Eliza
-    private Button instructions;
     
     //allows you to navigate back to division selection screen
     private Button back;
   
-    //initial bracket
-    private  Bracket startingBracket;
-
+    
+    private  Bracket startingBracket; 
     //reference to currently logged in bracket
     private Bracket selectedBracket;
     private Bracket simResultBracket;
+    private Bracket finalBracket;
 
     
     private ArrayList<Bracket> playerBrackets;
@@ -77,7 +74,8 @@ public class MarchMadnessGUI extends Application {
     private BracketPane bracketPane;
     private GridPane loginP;
     private TournamentInfo teamInfo;
-
+    
+    
     @Override
     public void start(Stage primaryStage) {
         //try to load all the files, if there is an error display it
@@ -93,6 +91,8 @@ public class MarchMadnessGUI extends Application {
         
         playerMap = new HashMap<>();
         addAllToMap();
+        
+
 
         //the main layout container
         root = new BorderPane();
@@ -108,7 +108,6 @@ public class MarchMadnessGUI extends Application {
         root.setTop(toolBar);   
         root.setBottom(btoolBar);
         Scene scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
         primaryStage.setMaximized(true);
 
         primaryStage.setTitle("March Madness Bracket Simulator");
@@ -132,7 +131,6 @@ public class MarchMadnessGUI extends Application {
      */
     private void simulate(){
         //cant login and restart prog after simulate
-        login.setDisable(true);
         simulate.setDisable(true);
         
        scoreBoardButton.setDisable(false);
@@ -151,12 +149,11 @@ public class MarchMadnessGUI extends Application {
      * 
      */
     private void login(){            
-        login.setDisable(true);
+        logout.setDisable(true);
         simulate.setDisable(true);
         scoreBoardButton.setDisable(true);
         viewBracketButton.setDisable(true);
         btoolBar.setDisable(true);
-        instructions.setDisable(false);
         displayPane(loginP);
     }
     
@@ -197,11 +194,15 @@ public class MarchMadnessGUI extends Application {
      * for final4 reset Ro2 and winner
      */
     private void clear(){
-      
-      bracketPane.clear();
-      bracketPane=new BracketPane(selectedBracket);
-      displayPane(bracketPane);
-        
+        if (bracketPane.equals(new BracketPane(selectedBracket))){
+            selectedBracket=new Bracket(startingBracket);
+            bracketPane=new BracketPane(selectedBracket);
+            displayPane(bracketPane);    
+        }else{    
+        bracketPane.clear();
+        bracketPane=new BracketPane(selectedBracket);
+        displayPane(bracketPane);
+        }
     }
     
     /**
@@ -221,7 +222,7 @@ public class MarchMadnessGUI extends Application {
            btoolBar.setDisable(true);
            bracketPane.setDisable(true);
            simulate.setDisable(false);
-           login.setDisable(false);
+           logout.setDisable(false);
            //save the bracket along with account info
            seralizeBracket(selectedBracket);
             
@@ -257,17 +258,16 @@ public class MarchMadnessGUI extends Application {
     private void CreateToolBars(){
         toolBar  = new ToolBar();
         btoolBar  = new ToolBar();
-        login=new Button("Login");
+        logout=new Button("Logout");
         simulate=new Button("Simulate");
         scoreBoardButton=new Button("ScoreBoard");
         viewBracketButton= new Button("View Simulated Bracket");
         clearButton=new Button("Clear");
         resetButton=new Button("Reset");
         finalizeButton=new Button("Finalize");
-        instructions=new Button("Instructions");
         toolBar.getItems().addAll(
                 createSpacer(),
-                login,
+                logout,
                 simulate,
                 scoreBoardButton,
                 viewBracketButton,
@@ -278,7 +278,6 @@ public class MarchMadnessGUI extends Application {
                 clearButton,
                 resetButton,
                 finalizeButton,
-                instructions,
                 back=new Button("Choose Division"),
                 createSpacer()
         );
@@ -288,14 +287,13 @@ public class MarchMadnessGUI extends Application {
     * sets the actions for each button
     */
     private void setActions(){
-        login.setOnAction(e->login());
+        logout.setOnAction(e->login());
         simulate.setOnAction(e->simulate());
         scoreBoardButton.setOnAction(e->scoreBoard());
         viewBracketButton.setOnAction(e->viewBracket());
         clearButton.setOnAction(e->clear());
         resetButton.setOnAction(e->reset());
         finalizeButton.setOnAction(e->finalizeBracket());
-        instructions.setOnAction(e->instructions());
         back.setOnAction(e->{
             bracketPane=new BracketPane(selectedBracket);
             displayPane(bracketPane);
@@ -327,9 +325,9 @@ public class MarchMadnessGUI extends Application {
         loginPane.setAlignment(Pos.CENTER);
         loginPane.setHgap(10);
         loginPane.setVgap(10);
+        loginPane.setPadding(new Insets(5, 5, 5, 5));
 
-        Text welcomeMessage = new Text("March Madness Login");
-        welcomeMessage.getStyleClass().add("welcomeMessage");
+        Text welcomeMessage = new Text("March Madness Login Welcome");
         loginPane.add(welcomeMessage, 0, 0, 2, 1);
 
         Label userName = new Label("User Name: ");
@@ -350,13 +348,11 @@ public class MarchMadnessGUI extends Application {
 
         Label message = new Label();
         loginPane.add(message, 1, 5);
-        
-        //added by Eliza
-        Button loginIns = new Button("Instructions");
-        loginIns.setOnAction(e->instructions());
-        loginPane.add(loginIns,1,5);
-        loginIns.setDefaultButton(true);
+
         signButton.setOnAction(event -> {
+            
+            //Louis added logout button to be enabled after sign-in
+            logout.setDisable(false);
 
             // the name user enter
             String name = enterUser.getText();
@@ -526,30 +522,6 @@ public class MarchMadnessGUI extends Application {
             }
         }
         return list;
-    }
-    /**
-     * Eliza Doering 4/2019
-     */
-    private void instructions(){
-        
-        Text text = new Text();
-        String str = "March Madness is a basketball tournament. Use brackets to predict which teams will win.\n"
-                + "Click on the name of the team that you'd like to progress forward.\n"
-                + "You can do this either in induvidual division or the full one.\n"
-                + "Either way, completion of the bracket occurs in the full division.\n"
-                + "Once finished, click 'finalize' then click view scores to see how many points you received\n"
-                + "While playing, if you decide you want to change something click the clear button and it will clear\n"
-                + "the division that you are currently in! Have fun and good luck!\n";
-        text.setText(str);
-        //added by Eliza
-        TextFlow instructionsTxt = new TextFlow();
-  
-        instructionsTxt.getChildren().addAll(text);
-        Stage stage = new Stage();
-        Scene scene = new Scene(instructionsTxt);
-        stage.setTitle("Instructions");
-        stage.setScene(scene);
-        stage.show();
     }
        
 }
