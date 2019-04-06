@@ -40,9 +40,8 @@ import javafx.stage.Stage;
  * @author Grant Osborn
  */
 public class MarchMadnessGUI extends Application {
-    
-    
-    //all the gui ellements
+
+    //all the gui elements
     private BorderPane root;
     private ToolBar toolBar;
     private ToolBar btoolBar;
@@ -53,14 +52,16 @@ public class MarchMadnessGUI extends Application {
     private Button clearButton;
     private Button resetButton;
     private Button finalizeButton;
+
     //added by Eliza
     private Button instructions;
     
     //allows you to navigate back to division selection screen
     private Button back;
   
-    
-    private  Bracket startingBracket; 
+    //initial bracket
+    private  Bracket startingBracket;
+
     //reference to currently logged in bracket
     private Bracket selectedBracket;
     private Bracket simResultBracket;
@@ -76,10 +77,7 @@ public class MarchMadnessGUI extends Application {
     private BracketPane bracketPane;
     private GridPane loginP;
     private TournamentInfo teamInfo;
-    //added by Eliza
-    private TextFlow instructionsTxt;
-    
-    
+
     @Override
     public void start(Stage primaryStage) {
         //try to load all the files, if there is an error display it
@@ -95,8 +93,6 @@ public class MarchMadnessGUI extends Application {
         
         playerMap = new HashMap<>();
         addAllToMap();
-        
-
 
         //the main layout container
         root = new BorderPane();
@@ -112,6 +108,7 @@ public class MarchMadnessGUI extends Application {
         root.setTop(toolBar);   
         root.setBottom(btoolBar);
         Scene scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
         primaryStage.setMaximized(true);
 
         primaryStage.setTitle("March Madness Bracket Simulator");
@@ -330,9 +327,9 @@ public class MarchMadnessGUI extends Application {
         loginPane.setAlignment(Pos.CENTER);
         loginPane.setHgap(10);
         loginPane.setVgap(10);
-        loginPane.setPadding(new Insets(5, 5, 5, 5));
 
-        Text welcomeMessage = new Text("March Madness Login Welcome");
+        Text welcomeMessage = new Text("March Madness Login");
+        welcomeMessage.getStyleClass().add("welcomeMessage");
         loginPane.add(welcomeMessage, 0, 0, 2, 1);
 
         Label userName = new Label("User Name: ");
@@ -544,7 +541,8 @@ public class MarchMadnessGUI extends Application {
                 + "While playing, if you decide you want to change something click the clear button and it will clear\n"
                 + "the division that you are currently in! Have fun and good luck!\n";
         text.setText(str);
-        instructionsTxt= new TextFlow();
+        //added by Eliza
+        TextFlow instructionsTxt = new TextFlow();
   
         instructionsTxt.getChildren().addAll(text);
         Stage stage = new Stage();
