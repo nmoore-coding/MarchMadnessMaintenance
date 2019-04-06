@@ -1,0 +1,9 @@
+.root {
+    -fx-font-family: "Franklin Gothic Medium";
+}
+
+.welcomeMessage {
+    -fx-font-family: "Franklin Gothic Medium";
+    -fx-font-size: 40px;
+    -fx-padding: 20px;
+}
