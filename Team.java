@@ -5,7 +5,6 @@
  *       Team class holds all the information for individual teams. Their name, info, and ranking.
  *       
  */
-package marchmadness;
 
 public class Team{
 
@@ -13,6 +12,7 @@ public class Team{
   private String nickname;
   private String info;
   private int ranking;
+  private boolean guess;
   public double offensePPG;
   public double defensePPG;
   
@@ -32,6 +32,15 @@ public class Team{
     this.ranking = ranking;
     offensePPG = oPPG;
     defensePPG = dPPG;
+    guess = false;
+  }
+  
+  public boolean getGuess(){
+      return guess;
+  }
+  
+  public boolean setGuess(boolean a){
+      return guess = a;
   }
     
   /**

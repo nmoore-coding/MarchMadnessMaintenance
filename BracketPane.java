@@ -1,10 +1,8 @@
-package marchmadness;
-
 import javafx.event.EventHandler;
 import javafx.geometry.NodeOrientation;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
+import javafx.geometry.Insets;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -14,6 +12,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -27,11 +26,15 @@ import java.util.HashMap;
 
 import javafx.scene.layout.Region;
 
+import javafx.scene.control.Tooltip;
+
+
 /**
  * Created by Richard and Ricardo on 5/3/17.
  */
 public class BracketPane extends BorderPane {
-
+        private int ready;
+        private BracketNode tmp1;
         /**
          * Reference to the graphical representation of the nodes within the bracket.
          */
@@ -81,7 +84,7 @@ public class BracketPane extends BorderPane {
         
         
         public void clear(){
-          clearSubtree(displayedSubtree);
+            clearSubtree(displayedSubtree);
         }
 
         /**
@@ -101,8 +104,17 @@ public class BracketPane extends BorderPane {
                         }
                 }
                 //added by matt 5/7, shows the teams info if you right click
-                else if (mouseEvent.getButton().equals(MouseButton.SECONDARY)) {
-                        String text = "";
+                
+        };
+        /**
+         * Handles mouseEntered events for BracketNode objects
+         */
+        private EventHandler<MouseEvent> enter = mouseEvent -> {
+                tmp1 = (BracketNode) mouseEvent.getSource();
+                tmp1.setStyle("-fx-background-color: lightcyan;");
+                
+                tmp1.setEffect(new InnerShadow(10, Color.LIGHTCYAN));
+                String text = "";
                         BracketNode n = (BracketNode) mouseEvent.getSource();
                         int treeNum = bracketMap.get(n);
                         String teamName = currentBracket.getBracket().get(treeNum);
@@ -111,24 +123,15 @@ public class BracketPane extends BorderPane {
                                 Team t = info.getTeam(teamName);
                                 //by Tyler - added the last two pieces of info to the pop up window
                                 text += "Team: " + teamName + " | Ranking: " + t.getRanking() + "\nMascot: " + t.getNickname() + "\nInfo: " + t.getInfo() + "\nAverage Offensive PPG: " + t.getOffensePPG() + "\nAverage Defensive PPG: "+ t.getDefensePPG();
-                        } catch (IOException e) {//if for some reason TournamentInfo isnt working, it will display info not found
+                        } catch (IOException | NullPointerException e) {//if for some reason TournamentInfo isnt working, it will display info not found
                                 text += "Info for " + teamName + "not found";
                         }
-                        //create a popup with the team info
-                        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, text, ButtonType.CLOSE);
-                        alert.setTitle("March Madness Bracket Simulator");
-                        alert.setHeaderText(null);
-                        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-                        alert.showAndWait();
-                }
-        };
-        /**
-         * Handles mouseEntered events for BracketNode objects
-         */
-        private EventHandler<MouseEvent> enter = mouseEvent -> {
-                BracketNode tmp = (BracketNode) mouseEvent.getSource();
-                tmp.setStyle("-fx-background-color: lightcyan;");
-                tmp.setEffect(new InnerShadow(10, Color.LIGHTCYAN));
+                        /**
+                        *Max Hernandez 4/5/19
+                        * creates a tooltip window when the mouse is hovered over a bracketnode
+                        */
+                        Tooltip teamInfo = new Tooltip(text);
+                        Tooltip.install(n, teamInfo);
         };
 
         /**
@@ -154,6 +157,9 @@ public class BracketPane extends BorderPane {
          * Initializes the properties needed to construct a bracket.
          */
         public BracketPane(Bracket currentBracket) {
+            
+                tmp1 = new BracketNode();
+            
                 displayedSubtree=0;
                 this.currentBracket = currentBracket;
 
@@ -178,16 +184,21 @@ public class BracketPane extends BorderPane {
                         roots.add(new Root(3 + m));
                         panes.put(buttons.get(m), roots.get(m));
                 }
+                
+                             
                 Pane finalPane = createFinalFour();
                 //buttons.add(customButton("FINAL"));
                 //panes.put(buttons.get(5), finalPane);
                 fullPane = new GridPane();
                 GridPane gp1 = new GridPane();
-                gp1.add(roots.get(0), 0, 0);
-                gp1.add(roots.get(1), 0, 1);
+                
+                gp1.add(levels(), 0,0);
+                gp1.add(roots.get(0), 0, 1);
+                gp1.add(roots.get(1), 0, 2);
                 GridPane gp2 = new GridPane();
-                gp2.add(roots.get(2), 0, 0);
-                gp2.add(roots.get(3), 0, 1);
+                gp2.add(levels(), 0, 0);
+                gp2.add(roots.get(2), 0, 1);
+                gp2.add(roots.get(3), 0, 2);
                 gp2.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
 
                 fullPane.add(gp1, 0, 0);
@@ -221,7 +232,15 @@ public class BracketPane extends BorderPane {
                                  * @update Grant & Tyler 
                                  * 			panes are added as ScrollPanes to retain center alignment when moving through full-view and region-view
                                  */
-                                center.add(new ScrollPane(panes.get(t)), 0, 0);
+                                /**
+                                 * @update Max Hernandez
+                                 * added if statement to check if the button is full bracket
+                                 * if not adds the levels to the region bracket
+                                 */
+                                if(buttons.size()-1!= buttons.indexOf(t)){
+                                    center.add(levels(), 0,0);
+                                }
+                                center.add(new ScrollPane(panes.get(t)), 0, 1);
                                 center.setAlignment(Pos.CENTER);
                                 setCenter(center);
                                 //Grant 5/7 this is for clearing the tree it kind of works 
@@ -290,14 +309,14 @@ public class BracketPane extends BorderPane {
          * of finalized is also true.
          */
         public boolean isFinalized() {
-                return currentBracket.isComplete() && finalized;
+                return currentBracket.getFinalized();
         }
-
+        
         /**
          * @param isFinalized The value to set finalized to.
          */
         public void setFinalized(boolean isFinalized) {
-                finalized = isFinalized && currentBracket.isComplete();
+                finalized = isFinalized ;
         }
 
         /**
@@ -315,15 +334,37 @@ public class BracketPane extends BorderPane {
                 pane.setStyle("-fx-background-color: orange;");
                 return pane;
         }
-
+        /**
+         * Max Hernandez 4/5/19
+         * creates the final 4 pane 
+         * changed the mouse enter method so that the tooltip window would appear
+         * also added lines for visibility
+         * and the bracket level tag
+         * @return pane 
+         */
         public Pane createFinalFour() {
                 Pane finalPane = new Pane();
+                //creates the nodes
                 BracketNode nodeFinal0 = new BracketNode("", 162, 300, 70, 0);
                 BracketNode nodeFinal1 = new BracketNode("", 75, 400, 70, 0);
                 BracketNode nodeFinal2 = new BracketNode("", 250, 400, 70, 0);
+                //sets the teams for each node
                 nodeFinal0.setName(currentBracket.getBracket().get(0));
                 nodeFinal1.setName(currentBracket.getBracket().get(1));
                 nodeFinal2.setName(currentBracket.getBracket().get(2));
+                //sets the actions for each node
+                nodeFinal0.setOnMouseClicked(clicked);
+                nodeFinal0.setOnMouseEntered(enter);
+                nodeFinal0.setOnMouseExited(exit);
+
+                nodeFinal1.setOnMouseClicked(clicked);
+                nodeFinal1.setOnMouseEntered(enter);
+                nodeFinal1.setOnMouseExited(exit);
+
+                nodeFinal2.setOnMouseClicked(clicked);
+                nodeFinal2.setOnMouseEntered(enter);
+                nodeFinal2.setOnMouseExited(exit);
+                //adds the nodes to the pane
                 finalPane.getChildren().add(nodeFinal0);
                 finalPane.getChildren().add(nodeFinal1);
                 finalPane.getChildren().add(nodeFinal2);
@@ -334,20 +375,25 @@ public class BracketPane extends BorderPane {
                 nodeMap.put(2, nodeFinal2);
                 nodeMap.put(0, nodeFinal0);
 
-                nodeFinal0.setOnMouseClicked(clicked);
-                nodeFinal0.setOnMouseDragEntered(enter);
-                nodeFinal0.setOnMouseDragExited(exit);
-
-                nodeFinal1.setOnMouseClicked(clicked);
-                nodeFinal1.setOnMouseDragEntered(enter);
-                nodeFinal1.setOnMouseDragExited(exit);
-
-                nodeFinal2.setOnMouseClicked(clicked);
-                nodeFinal2.setOnMouseDragEntered(enter);
-                nodeFinal2.setOnMouseDragExited(exit);
-                nodeFinal0.setStyle("-fx-border-color: darkblue");
-                nodeFinal1.setStyle("-fx-border-color: darkblue");
-                nodeFinal2.setStyle("-fx-border-color: darkblue");
+                
+                Line line0 = new Line(162,320,232,320);
+                Line line1 = new Line(75,420,145,420);
+                Line line2 = new Line(250,420,320,420);
+                Line bracket1 = new Line(145,420,145,380);
+                Line bracket2 = new Line(250,420,250,380);
+                Line bracket3 = new Line(145,380,250,380);
+                Line bracket4 = new Line(197,380,197,320);
+                finalPane.getChildren().add(line0);
+                finalPane.getChildren().add(line1);
+                finalPane.getChildren().add(line2);
+                finalPane.getChildren().add(bracket1);
+                finalPane.getChildren().add(bracket2);
+                finalPane.getChildren().add(bracket3);
+                finalPane.getChildren().add(bracket4);
+                Text tag = new Text("Final");
+                tag.setX(176);
+                tag.setY(200);
+                finalPane.getChildren().add(tag);
                 finalPane.setMinWidth(400.0);
 
                 return finalPane;
@@ -360,7 +406,7 @@ public class BracketPane extends BorderPane {
         private class Root extends Pane {
 
                 private int location;
-
+               
                 public Root(int location) {
                         this.location = location;
                         createVertices(460, 200, 110, 20, 0, 0);
@@ -372,9 +418,15 @@ public class BracketPane extends BorderPane {
                                 n.setOnMouseClicked(clicked);
                                 n.setOnMouseEntered(enter);
                                 n.setOnMouseExited(exit);
-                        }
-                }
-
+                                n.setGuess(currentBracket.getGuessType());
+                            if(!isFinalized()){
+                                if (n.getGuess() == false){
+                                    n.setStyle("-fx-background-color: red;");}  
+                                else{
+                                    n.setStyle("-fx-background-color: green;");}  
+                            } 
+                        }       
+                    }
                 /**
                  * The secret sauce... well not really,
                  * Creates 3 lines in appropriate location unless it is the last line.
@@ -385,6 +437,7 @@ public class BracketPane extends BorderPane {
                         if (num == 0 && increment == 0) {
                                 BracketNode last = new BracketNode("", iX, y - 20, iXO, 20);
                                 nodes.add(last);
+                                
                                 getChildren().addAll(new Line(iX, iY, iX + iXO, iY), last);
                                 last.setName(currentBracket.getBracket().get(location));
                                 bracketMap.put(last, location);
@@ -421,7 +474,30 @@ public class BracketPane extends BorderPane {
 
                 }
         }
-
+        /**
+         * Max Hernandez 4/5/19
+         * creates an HBox of the bracket level ID
+         * @return levels 
+         */
+        private HBox levels(){
+             String first = "1st round";
+             String second = "2nd Round";
+             String sweet16 = "Sweet 16";
+             String eight = "Elite Eight";
+             String four =" Final Four";
+             
+             HBox levels = new HBox();
+             levels.setPadding(new Insets(0,0,0,22));
+             levels.setSpacing(55);
+             levels.getChildren().add(new Text(first));
+             levels.getChildren().add(new Text(second));
+             levels.getChildren().add(new Text(sweet16));
+             levels.getChildren().add(new Text(eight));
+             levels.getChildren().add(new Text(four));
+             return levels;
+        }
+        
+        
         /**
          * The BracketNode model for the Graphical display of the "Bracket"
          */
@@ -429,6 +505,7 @@ public class BracketPane extends BorderPane {
                 private String teamName;
                 private Rectangle rect;
                 private Label name;
+                private boolean guess;
 
                 /**
                  * Creates a BracketNode with,
@@ -439,6 +516,14 @@ public class BracketPane extends BorderPane {
                  * @param rX       The width of the rectangle to fill pane
                  * @param rY       The height of the rectangle
                  */
+                
+                public BracketNode(){
+                    teamName = "None";
+                    rect = new Rectangle(0,0);
+                    name = new Label ("None");
+                    guess = false;
+                }
+                
                 public BracketNode(String teamName, int x, int y, int rX, int rY) {
                         this.setLayoutX(x);
                         this.setLayoutY(y);
@@ -451,6 +536,13 @@ public class BracketPane extends BorderPane {
                         name.setTranslateX(5);
                         getChildren().addAll(name, rect);
                 }
+                
+                public void setGuess(boolean a){
+                     guess=a;
+                }
+                
+  
+                
 
                 /**
                  * @return teamName The teams name.
@@ -466,5 +558,13 @@ public class BracketPane extends BorderPane {
                         this.teamName = teamName;
                         name.setText(teamName);
                 }
+                
+                public boolean getGuess(){
+                    return guess;
+                }
+        }
+        
+        public void updateRed(){
+            tmp1.setStyle("-fx-background-color: red;");
         }
 }

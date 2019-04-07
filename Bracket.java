@@ -1,5 +1,3 @@
-package marchmadness;
-
 import java.util.ArrayList;
 import java.io.Serializable; 
 
@@ -15,6 +13,7 @@ public class Bracket implements Serializable //Hillary: This bracket class is to
     private transient int[] teamScores = new int[127];
     private String playerName;
     private String password;
+    private boolean guess;
     static final int EAST_BRACKET = 3;
     static final int WEST_BRACKET = 4;
     static final int MIDWEST_BRACKET = 5;
@@ -32,7 +31,7 @@ public class Bracket implements Serializable //Hillary: This bracket class is to
             bracket.add(0,"");
         }
     }
-
+    
     /**
      * Constructor using another Bracket to start
      * @param starting, master bracket pre-simulation
@@ -55,6 +54,7 @@ public class Bracket implements Serializable //Hillary: This bracket class is to
     public Bracket(Bracket starting, String user){
         bracket = new ArrayList<String>(starting.getBracket());
         playerName = user;
+        guess = false;
     }
 
     //Methods
@@ -70,7 +70,15 @@ public class Bracket implements Serializable //Hillary: This bracket class is to
      * updated by matt 5/7, now removesAbove anytime the above position is not equal to the clicked one
      * @param position, the starting position of the team to be moved
      */
-
+    public boolean getGuessType(){
+        return guess;
+    }
+    
+    public void setGuessType(Team a){
+         guess = a.getGuess();
+    }
+    
+    
     public void moveTeamUp(int position){
         int newPos = (int)((position-1)/2);
         //if (bracket.get(newPos).equals("")) removed by matt 5/7
@@ -180,6 +188,13 @@ public class Bracket implements Serializable //Hillary: This bracket class is to
             if(team.equals("")){ return false; }
         }
         return true;
+    }
+    private boolean finalV = false;
+    public boolean setFinalized(boolean a){
+        return finalV=a;
+    }
+    public boolean getFinalized(){
+        return finalV;
     }
     
     /** 

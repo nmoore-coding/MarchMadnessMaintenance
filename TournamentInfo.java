@@ -1,5 +1,3 @@
-package marchmadness;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -70,6 +68,13 @@ public class TournamentInfo{//renamed from teamInfo by matt 5/4
     public Team getTeam(String teamName){
         return teams.get(teamName);
     }
+//    public boolean getGuess(Bracket startingBracket){
+//        int index1 = 0;
+//         for (int i = 62; i >= 0; i--) {
+//        return teams.get(startingBracket.getBracket().get(index1)).getGuess();
+//         }
+//         return false;
+//    }
 
     /**
      * This will be the method that actually does the work of determining the outcome of the games.
@@ -78,13 +83,15 @@ public class TournamentInfo{//renamed from teamInfo by matt 5/4
      * @param startingBracket -- the bracket to be simulated upon. The master bracket
      */
     public void simulate(Bracket startingBracket){
+        int index1 = 0;
+        int index2 = 0;
         for (int i = 62; i >= 0; i--) {
         /* The equation for score that I settled on is this:
          * (Random int 75-135) * (1 - 0.02 * seed ranking)
          * This way, the multiplier would be between 0.68 and 0.98. Multiply that by 75-135, and you get a reasonable score with room for chance to prevail for lower teams. */
 
-            int index1 = 2*i+1;
-            int index2 = 2*i+2;
+            index1 = 2*i+1;
+            index2 = 2*i+2;
 
             Team team1 = teams.get(startingBracket.getBracket().get(index1));
             Team team2 = teams.get(startingBracket.getBracket().get(index2));
@@ -99,12 +106,15 @@ public class TournamentInfo{//renamed from teamInfo by matt 5/4
             startingBracket.setTeamScore(index1, score1);
             startingBracket.setTeamScore(index2, score2);
 
-            if(score1>score2)
+            if(score1>score2){
                 startingBracket.moveTeamUp(index1);
-            else
-                startingBracket.moveTeamUp(index2);
+                startingBracket.setGuessType(team1);
+            }
+            else{
+                startingBracket.moveTeamUp(index2);   
+            }
         }
-
+ 
     }
 
     /**
