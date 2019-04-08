@@ -46,7 +46,7 @@ public class MarchMadnessGUI extends Application {
     private ToolBar toolBar;
     private ToolBar btoolBar;
     private Button simulate;
-    private Button login;
+    private Button logout;
     private Button scoreBoardButton;
     private Button viewBracketButton;
     private Button clearButton;
@@ -132,7 +132,6 @@ public class MarchMadnessGUI extends Application {
      */
     private void simulate(){
         //cant login and restart prog after simulate
-        login.setDisable(true);
         simulate.setDisable(true);
         
        scoreBoardButton.setDisable(false);
@@ -151,7 +150,7 @@ public class MarchMadnessGUI extends Application {
      * 
      */
     private void login(){            
-        login.setDisable(true);
+        logout.setDisable(true);
         simulate.setDisable(true);
         scoreBoardButton.setDisable(true);
         viewBracketButton.setDisable(true);
@@ -219,7 +218,7 @@ public class MarchMadnessGUI extends Application {
            btoolBar.setDisable(true);
            bracketPane.setDisable(true);
            simulate.setDisable(false);
-           login.setDisable(false);
+           logout.setDisable(false);
            //save the bracket along with account info
            seralizeBracket(selectedBracket);
             
@@ -252,8 +251,9 @@ public class MarchMadnessGUI extends Application {
     private void CreateToolBars(){
         toolBar  = new ToolBar();
         btoolBar  = new ToolBar();
-        login=new Button("Login");
-        login.getStyleClass().add("buttons");
+
+        logout=new Button("Logout");
+        logout.getStyleClass().add("buttons");
         simulate=new Button("Simulate");
         simulate.getStyleClass().add("buttons");
         scoreBoardButton=new Button("ScoreBoard");
@@ -270,7 +270,7 @@ public class MarchMadnessGUI extends Application {
         instructions.getStyleClass().add("buttons");
         toolBar.getItems().addAll(
                 createSpacer(),
-                login,
+                logout,
                 simulate,
                 scoreBoardButton,
                 viewBracketButton,
@@ -292,7 +292,7 @@ public class MarchMadnessGUI extends Application {
     * sets the actions for each button
     */
     private void setActions(){
-        login.setOnAction(e->login());
+        logout.setOnAction(e->login());
         simulate.setOnAction(e->simulate());
         scoreBoardButton.setOnAction(e->scoreBoard());
         viewBracketButton.setOnAction(e->viewBracket());
@@ -364,7 +364,9 @@ public class MarchMadnessGUI extends Application {
         loginIns.setOnAction(e->instructions());
         loginPane.add(loginIns,1,5);
         signButton.setOnAction(event -> {
-
+            
+            //Louis added logout button to be enabled after sign-in
+            logout.setDisable(false);
             // the name user enter
             String name = enterUser.getText();
             // the password user enter
