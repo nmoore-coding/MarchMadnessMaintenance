@@ -55,7 +55,7 @@ public class MarchMadnessGUI extends Application {
 
     //added by Eliza
     private Button instructions;
-    
+    private Button restart;
     //allows you to navigate back to division selection screen
     private Button back;
   
@@ -133,7 +133,8 @@ public class MarchMadnessGUI extends Application {
     private void simulate(){
         //cant login and restart prog after simulate
         simulate.setDisable(true);
-        
+       
+       restart.setDisable(false);
        scoreBoardButton.setDisable(false);
        viewBracketButton.setDisable(false);
        
@@ -155,7 +156,7 @@ public class MarchMadnessGUI extends Application {
         scoreBoardButton.setDisable(true);
         viewBracketButton.setDisable(true);
         btoolBar.setDisable(true);
-        instructions.setDisable(false);
+        restart.setDisable(true);
         displayPane(loginP);
     }
     
@@ -177,7 +178,7 @@ public class MarchMadnessGUI extends Application {
        GridPane full = bracketPane.getFullPane();
        full.setAlignment(Pos.CENTER);
        full.setDisable(true);
-       displayPane(new ScrollPane(full));
+       displayPane(new ScrollPane(full)); 
     }
     
     /**
@@ -221,11 +222,13 @@ public class MarchMadnessGUI extends Application {
            logout.setDisable(false);
            //save the bracket along with account info
            serializeBracket(selectedBracket);
-       } else {
+            
+       }else{
             infoAlert("You can only finalize a bracket once it has been completed.");
             //go back to bracket section selection screen
             // bracketPane=new BracketPane(selectedBracket);
             displayPane(bracketPane);
+        
        }
        //bracketPane=new BracketPane(selectedBracket);
     }
@@ -266,12 +269,15 @@ public class MarchMadnessGUI extends Application {
         finalizeButton.getStyleClass().add("buttons");
         instructions=new Button("Instructions");
         instructions.getStyleClass().add("buttons");
+        restart = new Button("Restart");
+        restart.getStyleClass().add("buttons");
         toolBar.getItems().addAll(
                 createSpacer(),
                 logout,
                 simulate,
                 scoreBoardButton,
                 viewBracketButton,
+                restart,
                 createSpacer()
         );
         btoolBar.getItems().addAll(
@@ -298,6 +304,7 @@ public class MarchMadnessGUI extends Application {
         resetButton.setOnAction(e->reset());
         finalizeButton.setOnAction(e->finalizeBracket());
         instructions.setOnAction(e->instructions());
+        restart.setOnAction(e->restart());
         back.setOnAction(e->{
             bracketPane=new BracketPane(selectedBracket);
             displayPane(bracketPane);
@@ -531,7 +538,10 @@ public class MarchMadnessGUI extends Application {
         return list;
     }
     /**
-     * Eliza Doering 4/2019
+     * added by Eliza Doering 4/2019
+     * creates a new stage with a TextFlow pane
+     * 
+     * 
      */
     private void instructions(){
         
@@ -548,7 +558,6 @@ public class MarchMadnessGUI extends Application {
         text.setText(str);
         text.setWrappingWidth(500);
         text.setStyle("-fx-font-family: \"Franklin Gothic Medium\"; -fx-font-size: 15px;");
-        //added by Eliza
         TextFlow instructionsTxt = new TextFlow();
         instructionsTxt.setPadding(new Insets(20));
         instructionsTxt.setPrefSize(500, 300);
@@ -560,6 +569,24 @@ public class MarchMadnessGUI extends Application {
         stage.setTitle("Instructions");
         stage.setScene(scene);
         stage.show();
+    }
+    /**
+     * added by Eliza, creates a new empty bracket and enables disabled buttons 
+     */
+    private void restart(){
+        restart.setDisable(true);
+        try{
+            startingBracket= new Bracket(TournamentInfo.loadStartingBracket());
+            simResultBracket=new Bracket(TournamentInfo.loadStartingBracket());
+        } catch (IOException ex) {
+            showError(new Exception("Can't find "+ex.getMessage(),ex),true);
+        }
+
+        selectedBracket=new Bracket(startingBracket);
+        bracketPane=new BracketPane(selectedBracket);
+        displayPane(bracketPane);
+        btoolBar.setDisable(false);
+        bracketPane.setDisable(false);        
     }
        
 }
