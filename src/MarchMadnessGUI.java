@@ -177,7 +177,7 @@ public class MarchMadnessGUI extends Application {
        GridPane full = bracketPane.getFullPane();
        full.setAlignment(Pos.CENTER);
        full.setDisable(true);
-       displayPane(new ScrollPane(full)); 
+       displayPane(new ScrollPane(full));
     }
     
     /**
@@ -221,13 +221,11 @@ public class MarchMadnessGUI extends Application {
            logout.setDisable(false);
            //save the bracket along with account info
            serializeBracket(selectedBracket);
-            
-       }else{
+       } else {
             infoAlert("You can only finalize a bracket once it has been completed.");
             //go back to bracket section selection screen
             // bracketPane=new BracketPane(selectedBracket);
             displayPane(bracketPane);
-        
        }
        //bracketPane=new BracketPane(selectedBracket);
     }

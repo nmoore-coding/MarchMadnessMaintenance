@@ -100,6 +100,7 @@ public class BracketPane extends BorderPane {
                                 clearAbove(treeNum);
                                 nodeMap.get((bracketMap.get(n) - 1) / 2).setName(n.getName());
                                 currentBracket.moveTeamUp(treeNum);
+                                n.setStyle("-fx-font-size: 11px;");
                         }
                 }
                 //added by matt 5/7, shows the teams info if you right click
@@ -219,7 +220,7 @@ public class BracketPane extends BorderPane {
                         });
                         t.setOnMouseExited(mouseEvent -> {
                                 t.setStyle("-fx-background-color: #3c7fb1,\n" +
-                                        "            linear-gradient(#ccf2ff, #99e6ff);");
+                                        "linear-gradient(#ccf2ff, #99e6ff);");
                                 t.setEffect(null);
                         });
                         t.setOnMouseClicked(mouseEvent -> {
@@ -328,7 +329,7 @@ public class BracketPane extends BorderPane {
                 t.setTextAlignment(TextAlignment.CENTER);
                 pane.getChildren().addAll(r, t);
                 pane.setStyle("-fx-background-color: #3c7fb1,\n" +
-                        "            linear-gradient(#ccf2ff, #99e6ff);");
+                        "linear-gradient(#ccf2ff, #99e6ff);");
                 return pane;
         }
         /**
@@ -513,8 +514,8 @@ public class BracketPane extends BorderPane {
                         rect = new Rectangle(rX, rY);
                         rect.setFill(Color.TRANSPARENT);
                         name = new Label(teamName);
-                        // setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
                         name.setTranslateX(5);
+                        name.setStyle("-fx-font-size: 11px;");
                         getChildren().addAll(name, rect);
                 }
 
