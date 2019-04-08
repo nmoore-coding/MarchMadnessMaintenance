@@ -220,7 +220,7 @@ public class MarchMadnessGUI extends Application {
            simulate.setDisable(false);
            logout.setDisable(false);
            //save the bracket along with account info
-           seralizeBracket(selectedBracket);
+           serializeBracket(selectedBracket);
             
        }else{
             infoAlert("You can only finalize a bracket once it has been completed.");
@@ -471,10 +471,10 @@ public class MarchMadnessGUI extends Application {
     
     /**
      * Tayon Watson 5/5
-     * seralizedBracket
-     * @param B The bracket the is going to be seralized
+     * serializedBracket
+     * @param B The bracket the is going to be serialized
      */
-    private void seralizeBracket(Bracket B){
+    private void serializeBracket(Bracket B){
         FileOutputStream outStream = null;
         ObjectOutputStream out = null;
     try 
@@ -493,10 +493,10 @@ public class MarchMadnessGUI extends Application {
     /**
      * Tayon Watson 5/5
      * deseralizedBracket
-     * @param filename of the seralized bracket file
+     * @param filename of the serialized bracket file
      * @return deserialized bracket 
      */
-    private Bracket deseralizeBracket(String filename){
+    private Bracket deserializeBracket(String filename){
         Bracket bracket = null;
         FileInputStream inStream = null;
         ObjectInputStream in = null;
@@ -515,7 +515,7 @@ public class MarchMadnessGUI extends Application {
     
       /**
      * Tayon Watson 5/5
-     * deseralizedBracket
+     * deserializedBracket
      * @return deserialized bracket 
      */
     private ArrayList<Bracket> loadBrackets()
@@ -527,7 +527,7 @@ public class MarchMadnessGUI extends Application {
             String extension = fileName.substring(fileName.lastIndexOf(".")+1);
        
             if (extension.equals("ser")){
-                list.add(deseralizeBracket(fileName));
+                list.add(deserializeBracket(fileName));
             }
         }
         return list;
