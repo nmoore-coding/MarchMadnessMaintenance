@@ -348,7 +348,7 @@ public class MarchMadnessGUI extends Application {
         passwordField.getStyleClass().add("input");
         loginPane.add(passwordField, 1, 2);
 
-        Button signButton = new Button("Sign in");
+        Button signButton = new Button("Sign in/Create Account");
         signButton.getStyleClass().add("buttons");
         loginPane.add(signButton, 1, 4);
         signButton.setDefaultButton(true);//added by matt 5/7, lets you use sign in button by pressing enter
