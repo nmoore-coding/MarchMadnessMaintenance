@@ -186,7 +186,6 @@ public class MarchMadnessGUI extends Application {
      * 
      */
    private void chooseBracket(){
-        //login.setDisable(true);
         btoolBar.setDisable(false);
         bracketPane=new BracketPane(selectedBracket);
         displayPane(bracketPane);
@@ -197,10 +196,9 @@ public class MarchMadnessGUI extends Application {
      * for final4 reset Ro2 and winner
      */
     private void clear(){
-      
-      bracketPane.clear();
-      bracketPane=new BracketPane(selectedBracket);
-      displayPane(bracketPane);
+        bracketPane.clear();
+        bracketPane=new BracketPane(selectedBracket);
+        displayPane(bracketPane);
         
     }
     
@@ -233,9 +231,6 @@ public class MarchMadnessGUI extends Application {
         
        }
        //bracketPane=new BracketPane(selectedBracket);
-      
-      
-        
     }
     
     
@@ -258,13 +253,21 @@ public class MarchMadnessGUI extends Application {
         toolBar  = new ToolBar();
         btoolBar  = new ToolBar();
         login=new Button("Login");
+        login.getStyleClass().add("buttons");
         simulate=new Button("Simulate");
+        simulate.getStyleClass().add("buttons");
         scoreBoardButton=new Button("ScoreBoard");
+        scoreBoardButton.getStyleClass().add("buttons");
         viewBracketButton= new Button("View Simulated Bracket");
+        viewBracketButton.getStyleClass().add("buttons");
         clearButton=new Button("Clear");
+        clearButton.getStyleClass().add("buttons");
         resetButton=new Button("Reset");
+        resetButton.getStyleClass().add("buttons");
         finalizeButton=new Button("Finalize");
+        finalizeButton.getStyleClass().add("buttons");
         instructions=new Button("Instructions");
+        instructions.getStyleClass().add("buttons");
         toolBar.getItems().addAll(
                 createSpacer(),
                 login,
@@ -282,6 +285,7 @@ public class MarchMadnessGUI extends Application {
                 back=new Button("Choose Division"),
                 createSpacer()
         );
+        back.getStyleClass().add("buttons");
     }
     
    /**
@@ -332,19 +336,22 @@ public class MarchMadnessGUI extends Application {
         welcomeMessage.getStyleClass().add("welcomeMessage");
         loginPane.add(welcomeMessage, 0, 0, 2, 1);
 
-        Label userName = new Label("User Name: ");
+        Label userName = new Label("User Name:");
         loginPane.add(userName, 0, 1);
 
         TextField enterUser = new TextField();
+        enterUser.getStyleClass().add("input");
         loginPane.add(enterUser, 1, 1);
 
-        Label password = new Label("Password: ");
+        Label password = new Label("Password:");
         loginPane.add(password, 0, 2);
 
         PasswordField passwordField = new PasswordField();
+        passwordField.getStyleClass().add("input");
         loginPane.add(passwordField, 1, 2);
 
         Button signButton = new Button("Sign in");
+        signButton.getStyleClass().add("buttons");
         loginPane.add(signButton, 1, 4);
         signButton.setDefaultButton(true);//added by matt 5/7, lets you use sign in button by pressing enter
 
@@ -353,6 +360,7 @@ public class MarchMadnessGUI extends Application {
         
         //added by Eliza
         Button loginIns = new Button("Instructions");
+        loginIns.getStyleClass().add("buttons");
         loginIns.setOnAction(e->instructions());
         loginPane.add(loginIns,1,5);
         loginIns.setDefaultButton(true);
@@ -363,9 +371,6 @@ public class MarchMadnessGUI extends Application {
             // the password user enter
             String playerPass = passwordField.getText();
 
-        
-          
-            
             if (playerMap.get(name) != null) {
                 //check password of user
                  
@@ -415,8 +420,8 @@ public class MarchMadnessGUI extends Application {
      * The Exception handler
      * Displays a error message to the user
      * and if the error is bad enough closes the program
-     * @param msg message to be displayed to the user
-     * @param fatal true if the program should exit. false otherwise 
+     * @param e Exception
+     * @param fatal true if the program should exit. false otherwise
      */
     private void showError(Exception e,boolean fatal){
         String msg=e.getMessage();
@@ -510,7 +515,6 @@ public class MarchMadnessGUI extends Application {
       /**
      * Tayon Watson 5/5
      * deseralizedBracket
-     * @param filename of the seralized bracket file
      * @return deserialized bracket 
      */
     private ArrayList<Bracket> loadBrackets()
@@ -539,12 +543,16 @@ public class MarchMadnessGUI extends Application {
                 + "Either way, completion of the bracket occurs in the full division.\n"
                 + "Once finished, click 'finalize' then click view scores to see how many points you received\n"
                 + "While playing, if you decide you want to change something click the clear button and it will clear\n"
-                + "the division that you are currently in! Have fun and good luck!\n";
+                + "the division that you are currently in! Have fun and good luck!";
         text.setText(str);
+        text.getStyleClass().add("instructionsText");
+        text.setStyle("-fx-font-family: \"Franklin Gothic Medium\"; -fx-font-size: 15px;");
         //added by Eliza
         TextFlow instructionsTxt = new TextFlow();
-  
+        instructionsTxt.setPadding(new Insets(20));
+        instructionsTxt.getStyleClass().add("instructionsText");
         instructionsTxt.getChildren().addAll(text);
+
         Stage stage = new Stage();
         Scene scene = new Scene(instructionsTxt);
         stage.setTitle("Instructions");

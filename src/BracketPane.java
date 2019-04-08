@@ -218,7 +218,8 @@ public class BracketPane extends BorderPane {
                                 t.setEffect(new InnerShadow(10, Color.LIGHTCYAN));
                         });
                         t.setOnMouseExited(mouseEvent -> {
-                                t.setStyle("-fx-background-color: orange;");
+                                t.setStyle("-fx-background-color: #3c7fb1,\n" +
+                                        "            linear-gradient(#ccf2ff, #99e6ff);");
                                 t.setEffect(null);
                         });
                         t.setOnMouseClicked(mouseEvent -> {
@@ -326,7 +327,8 @@ public class BracketPane extends BorderPane {
                 Text t = new Text(name);
                 t.setTextAlignment(TextAlignment.CENTER);
                 pane.getChildren().addAll(r, t);
-                pane.setStyle("-fx-background-color: orange;");
+                pane.setStyle("-fx-background-color: #3c7fb1,\n" +
+                        "            linear-gradient(#ccf2ff, #99e6ff);");
                 return pane;
         }
         /**
@@ -475,8 +477,8 @@ public class BracketPane extends BorderPane {
              String four =" Final Four";
              
              HBox levels = new HBox();
-             levels.setPadding(new Insets(0,0,0,22));
-             levels.setSpacing(55);
+             levels.setPadding(new Insets(15,0,20,22));
+             levels.setSpacing(50);
              levels.getChildren().add(new Text(first));
              levels.getChildren().add(new Text(second));
              levels.getChildren().add(new Text(sweet16));
