@@ -538,18 +538,22 @@ public class MarchMadnessGUI extends Application {
     private void instructions(){
         
         Text text = new Text();
-        String str = "March Madness is a basketball tournament. Use brackets to predict which teams will win.\n"
-                + "Click on the name of the team that you'd like to progress forward.\n"
-                + "You can do this either in induvidual division or the full one.\n"
-                + "Either way, completion of the bracket occurs in the full division.\n"
-                + "Once finished, click 'finalize' then click view scores to see how many points you received\n"
-                + "While playing, if you decide you want to change something click the clear button and it will clear\n"
-                + "the division that you are currently in! Have fun and good luck!";
+        String str = "\tMarch Madness is a college basketball tournament consisting of 64 teams. First, choose a " +
+                "division that you'd like to start filling out a bracket for or click Full to view the entire bracket. " +
+                "When viewing a bracket, click on the teams that you predict will win each match and this will progress them " +
+                "forward in the bracket. If you choose winners for each division then you still have to go to the full bracket " +
+                "in order to choose the champion. Once finished, click 'finalize' to lock in your bracket. At this point, you can " +
+                "logout of your account and login with a new user if you want to create multiple brackets. Once all user's brackets " +
+                "have been finalized then the Simulate button can be clicked to simulate the tournament. You may then click " +
+                "the Scoreboard button to see how many points you and any other users received. While playing, if you decide that " +
+                "you want to clear the bracket that you are currently on then click the clear button. Have fun and good luck!";
         text.setText(str);
+        text.setWrappingWidth(500);
         text.setStyle("-fx-font-family: \"Franklin Gothic Medium\"; -fx-font-size: 15px;");
         //added by Eliza
         TextFlow instructionsTxt = new TextFlow();
         instructionsTxt.setPadding(new Insets(20));
+        instructionsTxt.setPrefSize(500, 300);
         instructionsTxt.getStyleClass().add("instructionsText");
         instructionsTxt.getChildren().addAll(text);
 
