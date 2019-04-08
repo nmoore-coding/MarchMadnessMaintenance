@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 import javafx.application.Application;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.MouseButton;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -30,6 +32,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
+import javafx.event.Event;
 
 /**
  *  MarchMadnessGUI
@@ -207,9 +210,19 @@ public class MarchMadnessGUI extends Application {
     private void reset(){
         if(confirmReset()){
             //horrible hack to reset
+            int lastPane = bracketPane.getLastPane();
             selectedBracket=new Bracket(startingBracket);
             bracketPane=new BracketPane(selectedBracket);
             displayPane(bracketPane);
+            /**
+             * puts the user back to the bracket section they were looking at prior to resetting 
+             * uses fireEvent to make a fake mouseclick on the bracket the user was last on
+             * uses 5 as an out of bounds placeholder to show that the user has not yet been to a region bracket
+             * Try not to get lost in the constructor
+             */ 
+            if(lastPane != 5){    
+                Event.fireEvent(bracketPane.getButtons().get(lastPane), new MouseEvent(MouseEvent.MOUSE_CLICKED, 0, 0, 0, 0, MouseButton.PRIMARY, 1, false, false, false, false, true, false, false, false, false, false,null));
+            }
         }
     }
     
