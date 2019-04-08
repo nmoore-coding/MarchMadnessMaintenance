@@ -67,7 +67,14 @@ public class BracketPane extends BorderPane {
          * Reverse of the above;
          */
         private HashMap<Integer, BracketNode> nodeMap = new HashMap<>();
-
+        /**
+         * Stores the region bracket selection buttons
+         */
+        private ArrayList<StackPane> buttons;
+        /**
+         * stores the index of the last pane the user was on
+         */
+        private int lastPaneIndex;
         /**
          * Clears the entries of a team future wins
          *
@@ -103,7 +110,6 @@ public class BracketPane extends BorderPane {
                                 n.setStyle("-fx-font-size: 11px;");
                         }
                 }
-                //added by matt 5/7, shows the teams info if you right click
                 
         };
         /**
@@ -167,7 +173,7 @@ public class BracketPane extends BorderPane {
 
                 center = new GridPane();
 
-                ArrayList<StackPane> buttons = new ArrayList<>();
+                buttons = new ArrayList<>();
                 buttons.add(customButton("EAST"));
                 buttons.add(customButton("WEST"));
                 buttons.add(customButton("MIDWEST"));
@@ -212,7 +218,9 @@ public class BracketPane extends BorderPane {
 
                 // set default center to the button grid
                 this.setCenter(buttonGrid);
-
+                
+                lastPaneIndex = 5;
+                
                 for (StackPane t : buttons) {
                         t.setOnMouseEntered(mouseEvent -> {
                                 t.setStyle("-fx-background-color: lightblue;");
@@ -224,6 +232,7 @@ public class BracketPane extends BorderPane {
                                 t.setEffect(null);
                         });
                         t.setOnMouseClicked(mouseEvent -> {
+                                lastPaneIndex = buttons.indexOf(t);
                                 setCenter(null);
                                 /**
                                  * @update Grant & Tyler 
@@ -488,6 +497,23 @@ public class BracketPane extends BorderPane {
              return levels;
         }
         
+        /**
+         * Max Hernandez 4/8/19
+         * allows access to the buttons ArrayList outside of the BracketPane Class
+         * @return buttons
+         */ 
+        public ArrayList<StackPane> getButtons(){
+            return buttons;
+        }
+        
+        /**
+         * Max Hernandez 4/8/19
+         * returns the last pane the user was on
+         * @return int
+         */
+        public int getLastPane(){
+            return lastPaneIndex;
+        }
         
         /**
          * The BracketNode model for the Graphical display of the "Bracket"
