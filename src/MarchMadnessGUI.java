@@ -281,8 +281,8 @@ public class MarchMadnessGUI extends Application {
                 clearButton,
                 resetButton,
                 finalizeButton,
-                instructions,
                 back=new Button("Choose Division"),
+                instructions,
                 createSpacer()
         );
         back.getStyleClass().add("buttons");
@@ -363,7 +363,6 @@ public class MarchMadnessGUI extends Application {
         loginIns.getStyleClass().add("buttons");
         loginIns.setOnAction(e->instructions());
         loginPane.add(loginIns,1,5);
-        loginIns.setDefaultButton(true);
         signButton.setOnAction(event -> {
 
             // the name user enter
@@ -545,7 +544,6 @@ public class MarchMadnessGUI extends Application {
                 + "While playing, if you decide you want to change something click the clear button and it will clear\n"
                 + "the division that you are currently in! Have fun and good luck!";
         text.setText(str);
-        text.getStyleClass().add("instructionsText");
         text.setStyle("-fx-font-family: \"Franklin Gothic Medium\"; -fx-font-size: 15px;");
         //added by Eliza
         TextFlow instructionsTxt = new TextFlow();
