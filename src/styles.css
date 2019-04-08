@@ -1,0 +1,16 @@
+.root {
+    -fx-font-family: "Franklin Gothic Medium";
+    -fx-font-size: 13px;
+}
+
+.welcomeMessage {
+    -fx-font-size: 40px;
+    -fx-padding: 20px;
+}
+
+.buttons {
+    -fx-font-size: 15px;
+    -fx-background-color:
+            #3c7fb1,
+            linear-gradient(#ccf2ff, #99e6ff);
+}

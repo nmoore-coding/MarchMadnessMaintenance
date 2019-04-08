@@ -100,6 +100,7 @@ public class BracketPane extends BorderPane {
                                 clearAbove(treeNum);
                                 nodeMap.get((bracketMap.get(n) - 1) / 2).setName(n.getName());
                                 currentBracket.moveTeamUp(treeNum);
+                                n.setStyle("-fx-font-size: 11px;");
                         }
                 }
                 //added by matt 5/7, shows the teams info if you right click
@@ -121,7 +122,7 @@ public class BracketPane extends BorderPane {
                                 Team t = info.getTeam(teamName);
                                 //by Tyler - added the last two pieces of info to the pop up window
                                 text += "Team: " + teamName + " | Ranking: " + t.getRanking() + "\nMascot: " + t.getNickname() + "\nInfo: " + t.getInfo() + "\nAverage Offensive PPG: " + t.getOffensePPG() + "\nAverage Defensive PPG: "+ t.getDefensePPG();
-                        } catch (IOException e) {//if for some reason TournamentInfo isnt working, it will display info not found
+                        } catch (IOException | NullPointerException e) {//if for some reason TournamentInfo isnt working, it will display info not found
                                 text += "Info for " + teamName + "not found";
                         }
                         /**
@@ -218,7 +219,8 @@ public class BracketPane extends BorderPane {
                                 t.setEffect(new InnerShadow(10, Color.LIGHTCYAN));
                         });
                         t.setOnMouseExited(mouseEvent -> {
-                                t.setStyle("-fx-background-color: orange;");
+                                t.setStyle("-fx-background-color: #3c7fb1,\n" +
+                                        "linear-gradient(#ccf2ff, #99e6ff);");
                                 t.setEffect(null);
                         });
                         t.setOnMouseClicked(mouseEvent -> {
@@ -326,7 +328,8 @@ public class BracketPane extends BorderPane {
                 Text t = new Text(name);
                 t.setTextAlignment(TextAlignment.CENTER);
                 pane.getChildren().addAll(r, t);
-                pane.setStyle("-fx-background-color: orange;");
+                pane.setStyle("-fx-background-color: #3c7fb1,\n" +
+                        "linear-gradient(#ccf2ff, #99e6ff);");
                 return pane;
         }
         /**
@@ -475,8 +478,8 @@ public class BracketPane extends BorderPane {
              String four =" Final Four";
              
              HBox levels = new HBox();
-             levels.setPadding(new Insets(0,0,0,22));
-             levels.setSpacing(35);
+             levels.setPadding(new Insets(15,0,20,22));
+             levels.setSpacing(50);
              levels.getChildren().add(new Text(first));
              levels.getChildren().add(new Text(second));
              levels.getChildren().add(new Text(sweet16));
@@ -511,8 +514,8 @@ public class BracketPane extends BorderPane {
                         rect = new Rectangle(rX, rY);
                         rect.setFill(Color.TRANSPARENT);
                         name = new Label(teamName);
-                        // setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
                         name.setTranslateX(5);
+                        name.setStyle("-fx-font-size: 11px;");
                         getChildren().addAll(name, rect);
                 }
 
