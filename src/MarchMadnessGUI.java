@@ -271,8 +271,8 @@ public class MarchMadnessGUI extends Application {
         scoreBoardButton.getStyleClass().add("buttons");
         viewBracketButton= new Button("View Simulated Bracket");
         viewBracketButton.getStyleClass().add("buttons");
-        clearButton=new Button("Clear");
-        clearButton.getStyleClass().add("buttons");
+//        clearButton=new Button("Clear");
+//        clearButton.getStyleClass().add("buttons");
         resetButton=new Button("Reset");
         resetButton.getStyleClass().add("buttons");
         finalizeButton=new Button("Finalize");
@@ -289,10 +289,10 @@ public class MarchMadnessGUI extends Application {
         );
         btoolBar.getItems().addAll(
                 createSpacer(),
-                clearButton,
+//                clearButton,
+                back=new Button("Choose Division"),
                 resetButton,
                 finalizeButton,
-                back=new Button("Choose Division"),
                 instructions,
                 createSpacer()
         );
@@ -307,7 +307,7 @@ public class MarchMadnessGUI extends Application {
         simulate.setOnAction(e->simulate());
         scoreBoardButton.setOnAction(e->scoreBoard());
         viewBracketButton.setOnAction(e->viewBracket());
-        clearButton.setOnAction(e->clear());
+//        clearButton.setOnAction(e->clear());
         resetButton.setOnAction(e->reset());
         finalizeButton.setOnAction(e->finalizeBracket());
         instructions.setOnAction(e->instructions());
