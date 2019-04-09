@@ -411,8 +411,9 @@ public class MarchMadnessGUI extends Application {
                     // load bracket
                     selectedBracket=playerMap.get(name);
                     chooseBracket();
-                }else{
-                   infoAlert("The password you have entered is incorrect.");
+                } else {
+                    logout.setDisable(true);
+                    infoAlert("The password you have entered is incorrect.");
                 }
 
             } else {
