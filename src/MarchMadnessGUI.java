@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 import javafx.application.Application;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.MouseButton;
 import javafx.geometry.Insets;
@@ -52,15 +54,14 @@ public class MarchMadnessGUI extends Application {
     private Button logout;
     private Button scoreBoardButton;
     private Button viewBracketButton;
-    private Button clearButton;
     private Button resetButton;
     private Button finalizeButton;
 
     //added by Eliza
-    private Button instructions;
+    private Button instructionsButton;
     
-    //allows you to navigate back to division selection screen
-    private Button back;
+    //allows you to go directly to division selection screen
+    private Button chooseDivButton;
   
     //initial bracket
     private  Bracket startingBracket;
@@ -68,17 +69,13 @@ public class MarchMadnessGUI extends Application {
     //reference to currently logged in bracket
     private Bracket selectedBracket;
     private Bracket simResultBracket;
-
     
     private ArrayList<Bracket> playerBrackets;
     private HashMap<String, Bracket> playerMap;
-
-    
-
     private ScoreBoardTable scoreBoard;
     private TableView table;
     private BracketPane bracketPane;
-    private GridPane loginP;
+    private GridPane loginPane;
     private TournamentInfo teamInfo;
 
     @Override
@@ -101,7 +98,7 @@ public class MarchMadnessGUI extends Application {
         root = new BorderPane();
         scoreBoard= new ScoreBoardTable();
         table=scoreBoard.start();
-        loginP=createLogin();
+        loginPane =createLogin();
         CreateToolBars();
         
         //display login screen
@@ -158,8 +155,8 @@ public class MarchMadnessGUI extends Application {
         scoreBoardButton.setDisable(true);
         viewBracketButton.setDisable(true);
         btoolBar.setDisable(true);
-        instructions.setDisable(false);
-        displayPane(loginP);
+        instructionsButton.setDisable(false);
+        displayPane(loginPane);
     }
     
      /**
@@ -215,7 +212,7 @@ public class MarchMadnessGUI extends Application {
             bracketPane=new BracketPane(selectedBracket);
             displayPane(bracketPane);
             /**
-             * puts the user back to the bracket section they were looking at prior to resetting 
+             * puts the user chooseDivButton to the bracket section they were looking at prior to resetting
              * uses fireEvent to make a fake mouseclick on the bracket the user was last on
              * uses 5 as an out of bounds placeholder to show that the user has not yet been to a region bracket
              * Try not to get lost in the constructor
@@ -236,7 +233,7 @@ public class MarchMadnessGUI extends Application {
            serializeBracket(selectedBracket);
        } else {
             infoAlert("You can only finalize a bracket once it has been completed.");
-            //go back to bracket section selection screen
+            //go chooseDivButton to bracket section selection screen
             // bracketPane=new BracketPane(selectedBracket);
             displayPane(bracketPane);
        }
@@ -271,14 +268,14 @@ public class MarchMadnessGUI extends Application {
         scoreBoardButton.getStyleClass().add("buttons");
         viewBracketButton= new Button("View Simulated Bracket");
         viewBracketButton.getStyleClass().add("buttons");
-        clearButton=new Button("Clear");
-        clearButton.getStyleClass().add("buttons");
+//        clearButton=new Button("Clear");
+//        clearButton.getStyleClass().add("buttons");
         resetButton=new Button("Reset");
         resetButton.getStyleClass().add("buttons");
         finalizeButton=new Button("Finalize");
         finalizeButton.getStyleClass().add("buttons");
-        instructions=new Button("Instructions");
-        instructions.getStyleClass().add("buttons");
+        instructionsButton =new Button("Instructions");
+        instructionsButton.getStyleClass().add("buttons");
         toolBar.getItems().addAll(
                 createSpacer(),
                 logout,
@@ -289,14 +286,14 @@ public class MarchMadnessGUI extends Application {
         );
         btoolBar.getItems().addAll(
                 createSpacer(),
-                clearButton,
+//                clearButton,
+                chooseDivButton =new Button("Choose Division"),
                 resetButton,
                 finalizeButton,
-                back=new Button("Choose Division"),
-                instructions,
+                instructionsButton,
                 createSpacer()
         );
-        back.getStyleClass().add("buttons");
+        chooseDivButton.getStyleClass().add("buttons");
     }
     
    /**
@@ -307,11 +304,11 @@ public class MarchMadnessGUI extends Application {
         simulate.setOnAction(e->simulate());
         scoreBoardButton.setOnAction(e->scoreBoard());
         viewBracketButton.setOnAction(e->viewBracket());
-        clearButton.setOnAction(e->clear());
+//        clearButton.setOnAction(e->clear());
         resetButton.setOnAction(e->reset());
         finalizeButton.setOnAction(e->finalizeBracket());
-        instructions.setOnAction(e->instructions());
-        back.setOnAction(e->{
+        instructionsButton.setOnAction(e->instructions());
+        chooseDivButton.setOnAction(e->{
             bracketPane=new BracketPane(selectedBracket);
             displayPane(bracketPane);
         });
@@ -343,9 +340,16 @@ public class MarchMadnessGUI extends Application {
         loginPane.setHgap(10);
         loginPane.setVgap(10);
 
-        Text welcomeMessage = new Text("March Madness Login");
-        welcomeMessage.getStyleClass().add("welcomeMessage");
-        loginPane.add(welcomeMessage, 0, 0, 2, 1);
+        Image title = new Image("./march_madness_logo.png");
+        ImageView titleView = new ImageView();
+        titleView.setImage(title);
+        titleView.setFitWidth(350);
+        titleView.setPreserveRatio(true);
+        loginPane.add(titleView, 0, 0, 2, 1);
+
+//        Text welcomeMessage = new Text("March Madness Login");
+//        welcomeMessage.getStyleClass().add("welcomeMessage");
+//        loginPane.add(welcomeMessage, 0, 0, 2, 1);
 
         Label userName = new Label("User Name:");
         loginPane.add(userName, 0, 1);
