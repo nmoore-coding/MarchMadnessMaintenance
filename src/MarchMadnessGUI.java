@@ -113,6 +113,10 @@ public class MarchMadnessGUI extends Application {
 
         primaryStage.setTitle("March Madness Bracket Simulator");
         primaryStage.setScene(scene);
+        primaryStage.setMinWidth(800);
+        primaryStage.setMinHeight(700);
+        primaryStage.getIcons().add(new Image("./basketball_icon.png"));
+        primaryStage.setIconified(true);
         primaryStage.show();
     }
 
@@ -346,10 +350,6 @@ public class MarchMadnessGUI extends Application {
         titleView.setFitWidth(350);
         titleView.setPreserveRatio(true);
         loginPane.add(titleView, 0, 0, 2, 1);
-
-//        Text welcomeMessage = new Text("March Madness Login");
-//        welcomeMessage.getStyleClass().add("welcomeMessage");
-//        loginPane.add(welcomeMessage, 0, 0, 2, 1);
 
         Label userName = new Label("User Name:");
         loginPane.add(userName, 0, 1);
