@@ -383,13 +383,21 @@ public class MarchMadnessGUI extends Application {
             // the password user enter
             String playerPass = passwordField.getText();
             
-            //fixes logout button appearing if user leaves fields blank
-            if(name.equals("") || playerPass.equals("")){
-                 logout.setDisable(true);
+            //fixes logout button appearing if user leaves fields blank and yells at the user!
+            if(name.equals("") && playerPass.equals("")){
+                logout.setDisable(true);
+                infoAlert("Please enter a username and password");
+            }
+            //yells at the user to put in a name
+            else if(name.equals("")){
+                logout.setDisable(true);
+                infoAlert("Please enter a username");
             }
             //yells at the user to have a password
-            if(playerMap.get(name) == null || playerPass.equals("")){
-                infoAlert("Please enter a username and password.");
+
+            else if(playerPass.equals("")){
+                logout.setDisable(true);
+                infoAlert("Please enter a password");
             }
 
             if (playerMap.get(name) != null) {
