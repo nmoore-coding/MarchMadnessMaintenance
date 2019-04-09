@@ -59,6 +59,8 @@ public class MarchMadnessGUI extends Application {
 
     //added by Eliza
     private Button instructionsButton;
+    private Button restart;
+
     
     //allows you to go directly to division selection screen
     private Button chooseDivButton;
@@ -138,6 +140,7 @@ public class MarchMadnessGUI extends Application {
         //cant login and restart prog after simulate
         simulate.setDisable(true);
         
+       restart.setDisable(false);
        scoreBoardButton.setDisable(false);
        viewBracketButton.setDisable(false);
        
@@ -280,12 +283,15 @@ public class MarchMadnessGUI extends Application {
         finalizeButton.getStyleClass().add("buttons");
         instructionsButton =new Button("Instructions");
         instructionsButton.getStyleClass().add("buttons");
+        restart = new Button("Restart");
+        restart.getStyleClass().add("buttons");
         toolBar.getItems().addAll(
                 createSpacer(),
                 logout,
                 simulate,
                 scoreBoardButton,
                 viewBracketButton,
+                restart,
                 createSpacer()
         );
         btoolBar.getItems().addAll(
@@ -312,6 +318,7 @@ public class MarchMadnessGUI extends Application {
         resetButton.setOnAction(e->reset());
         finalizeButton.setOnAction(e->finalizeBracket());
         instructionsButton.setOnAction(e->instructions());
+        restart.setOnAction(e->restart());
         chooseDivButton.setOnAction(e->{
             bracketPane=new BracketPane(selectedBracket);
             displayPane(bracketPane);
@@ -591,6 +598,24 @@ public class MarchMadnessGUI extends Application {
         stage.setTitle("Instructions");
         stage.setScene(scene);
         stage.show();
+    }
+     /**
+     * added by Eliza, creates a new empty bracket and enables disabled buttons 
+     */
+    private void restart(){
+        restart.setDisable(true);
+        try{
+            startingBracket= new Bracket(TournamentInfo.loadStartingBracket());
+            simResultBracket=new Bracket(TournamentInfo.loadStartingBracket());
+        } catch (IOException ex) {
+            showError(new Exception("Can't find "+ex.getMessage(),ex),true);
+        }
+
+        selectedBracket=new Bracket(startingBracket);
+        bracketPane=new BracketPane(selectedBracket);
+        displayPane(bracketPane);
+        btoolBar.setDisable(false);
+        bracketPane.setDisable(false);        
     }
        
 }
