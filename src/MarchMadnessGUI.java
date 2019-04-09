@@ -59,10 +59,6 @@ public class MarchMadnessGUI extends Application {
 
     //added by Eliza
     private Button instructionsButton;
-
-    //added by Nathan
-    private TextField enterUser;
-    private PasswordField passwordField;
     
     //allows you to go directly to division selection screen
     private Button chooseDivButton;
@@ -119,7 +115,7 @@ public class MarchMadnessGUI extends Application {
         primaryStage.setScene(scene);
         primaryStage.setMinWidth(800);
         primaryStage.setMinHeight(700);
-        primaryStage.getIcons().add(new Image("./basketball_icon.png"));
+        primaryStage.getIcons().add(new Image("basketball_icon.png"));
         primaryStage.setIconified(true);
         primaryStage.show();
     }
@@ -164,9 +160,7 @@ public class MarchMadnessGUI extends Application {
         viewBracketButton.setDisable(true);
         btoolBar.setDisable(true);
         instructionsButton.setDisable(false);
-        enterUser.clear();
-        passwordField.clear();
-        displayPane(loginPane);
+        displayPane(loginPane = createLogin());
     }
     
      /**
@@ -360,14 +354,14 @@ public class MarchMadnessGUI extends Application {
         Label userName = new Label("User Name:");
         loginPane.add(userName, 0, 1);
 
-        enterUser = new TextField();
+        TextField enterUser = new TextField();
         enterUser.getStyleClass().add("input");
         loginPane.add(enterUser, 1, 1);
 
         Label password = new Label("Password:");
         loginPane.add(password, 0, 2);
 
-        passwordField = new PasswordField();
+        PasswordField passwordField = new PasswordField();
         passwordField.getStyleClass().add("input");
         loginPane.add(passwordField, 1, 2);
 
