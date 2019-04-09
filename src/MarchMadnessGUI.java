@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 import javafx.application.Application;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.MouseButton;
 import javafx.geometry.Insets;
@@ -73,7 +75,7 @@ public class MarchMadnessGUI extends Application {
     private ScoreBoardTable scoreBoard;
     private TableView table;
     private BracketPane bracketPane;
-    private GridPane loginP;
+    private GridPane loginPane;
     private TournamentInfo teamInfo;
 
     @Override
@@ -96,7 +98,7 @@ public class MarchMadnessGUI extends Application {
         root = new BorderPane();
         scoreBoard= new ScoreBoardTable();
         table=scoreBoard.start();
-        loginP=createLogin();
+        loginPane =createLogin();
         CreateToolBars();
         
         //display login screen
@@ -154,7 +156,7 @@ public class MarchMadnessGUI extends Application {
         viewBracketButton.setDisable(true);
         btoolBar.setDisable(true);
         instructionsButton.setDisable(false);
-        displayPane(loginP);
+        displayPane(loginPane);
     }
     
      /**
@@ -338,9 +340,16 @@ public class MarchMadnessGUI extends Application {
         loginPane.setHgap(10);
         loginPane.setVgap(10);
 
-        Text welcomeMessage = new Text("March Madness Login");
-        welcomeMessage.getStyleClass().add("welcomeMessage");
-        loginPane.add(welcomeMessage, 0, 0, 2, 1);
+        Image title = new Image("./march_madness_logo.png");
+        ImageView titleView = new ImageView();
+        titleView.setImage(title);
+        titleView.setFitWidth(350);
+        titleView.setPreserveRatio(true);
+        loginPane.add(titleView, 0, 0, 2, 1);
+
+//        Text welcomeMessage = new Text("March Madness Login");
+//        welcomeMessage.getStyleClass().add("welcomeMessage");
+//        loginPane.add(welcomeMessage, 0, 0, 2, 1);
 
         Label userName = new Label("User Name:");
         loginPane.add(userName, 0, 1);
