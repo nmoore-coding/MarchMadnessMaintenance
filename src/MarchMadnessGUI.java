@@ -111,7 +111,7 @@ public class MarchMadnessGUI extends Application {
         scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
         primaryStage.setMaximized(true);
 
-        primaryStage.setTitle("March Madness Bracket Simulator");
+        primaryStage.setTitle("March Madness Simulator");
         primaryStage.setScene(scene);
         primaryStage.setMinWidth(800);
         primaryStage.setMinHeight(700);
@@ -329,22 +329,18 @@ public class MarchMadnessGUI extends Application {
         );
         return spacer;
     }
-    
-    
-    private GridPane createLogin(){
-        
-        
-        /*
-        LoginPane
-        Sergio and Joao
-         */
 
+    /**
+     * LoginPane
+     * Sergio and Joao
+     */
+    private GridPane createLogin(){
         GridPane loginPane = new GridPane();
         loginPane.setAlignment(Pos.CENTER);
         loginPane.setHgap(10);
         loginPane.setVgap(10);
 
-        Image title = new Image("./march_madness_logo.png");
+        Image title = new Image("march_madness_logo.png");
         ImageView titleView = new ImageView();
         titleView.setImage(title);
         titleView.setFitWidth(350);
