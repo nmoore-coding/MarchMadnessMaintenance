@@ -156,7 +156,7 @@ public class MarchMadnessGUI extends Application {
         viewBracketButton.setDisable(true);
         btoolBar.setDisable(true);
         instructionsButton.setDisable(false);
-        displayPane(loginPane);
+        displayPane(loginPane = createLogin());
     }
     
      /**
@@ -340,7 +340,7 @@ public class MarchMadnessGUI extends Application {
         loginPane.setHgap(10);
         loginPane.setVgap(10);
 
-        Image title = new Image("./march_madness_logo.png");
+        Image title = new Image("march_madness_logo.png");
         ImageView titleView = new ImageView();
         titleView.setImage(title);
         titleView.setFitWidth(350);
@@ -386,6 +386,15 @@ public class MarchMadnessGUI extends Application {
             String name = enterUser.getText();
             // the password user enter
             String playerPass = passwordField.getText();
+            
+            //fixes logout button appearing if user leaves fields blank
+            if(name.equals("") || playerPass.equals("")){
+                 logout.setDisable(true);
+            }
+            //yells at the user to have a password
+            if(playerPass.equals("")){
+                infoAlert("Please enter a password");
+            }
 
             if (playerMap.get(name) != null) {
                 //check password of user
