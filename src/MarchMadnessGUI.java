@@ -386,15 +386,15 @@ public class MarchMadnessGUI extends Application {
             //fixes logout button appearing if user leaves fields blank and yells at the user!
             if(name.equals("") && playerPass.equals("")){
                 logout.setDisable(true);
-                infoAlert("Please enter a username and password");
+                infoAlert("Please enter a username and password.");
             }
             //yells at the user to put in a name
             else if(name.equals("")){
                 logout.setDisable(true);
-                infoAlert("Please enter a username");
+                infoAlert("Please enter a username.");
             }
 
-            if (playerMap.get(name) != null) {
+            if (playerMap.get(name) != null && !playerPass.equals("")) {
                 //check password of user
                  
                 Bracket tmpBracket = this.playerMap.get(name);
@@ -411,7 +411,7 @@ public class MarchMadnessGUI extends Application {
                     selectedBracket=playerMap.get(name);
                     chooseBracket();
                 }else{
-                   infoAlert("The password you have entered is incorrect!");
+                   infoAlert("The password you have entered is incorrect.");
                 }
 
             } else {
