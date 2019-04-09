@@ -397,11 +397,6 @@ public class MarchMadnessGUI extends Application {
                 logout.setDisable(true);
                 infoAlert("Please enter a username");
             }
-            //yells at the user to have a password
-            else if(playerPass.equals("")){
-                logout.setDisable(true);
-                infoAlert("Please enter a password");
-            }
 
             if (playerMap.get(name) != null) {
                 //check password of user
@@ -409,8 +404,13 @@ public class MarchMadnessGUI extends Application {
                 Bracket tmpBracket = this.playerMap.get(name);
                
                 String password1 = tmpBracket.getPassword();
-
-                if (Objects.equals(password1, playerPass)) {
+                
+                //yells at the user to have a password
+                if(playerPass.equals("")){
+                    logout.setDisable(true);
+                    infoAlert("Please enter a password");
+                }
+                else if (Objects.equals(password1, playerPass)) {
                     // load bracket
                     selectedBracket=playerMap.get(name);
                     chooseBracket();
