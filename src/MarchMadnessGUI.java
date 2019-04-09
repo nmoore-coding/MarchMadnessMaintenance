@@ -111,8 +111,12 @@ public class MarchMadnessGUI extends Application {
         scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
         primaryStage.setMaximized(true);
 
-        primaryStage.setTitle("March Madness Bracket Simulator");
+        primaryStage.setTitle("March Madness Simulator");
         primaryStage.setScene(scene);
+        primaryStage.setMinWidth(800);
+        primaryStage.setMinHeight(700);
+        primaryStage.getIcons().add(new Image("basketball_icon.png"));
+        primaryStage.setIconified(true);
         primaryStage.show();
     }
 
@@ -325,16 +329,12 @@ public class MarchMadnessGUI extends Application {
         );
         return spacer;
     }
-    
-    
-    private GridPane createLogin(){
-        
-        
-        /*
-        LoginPane
-        Sergio and Joao
-         */
 
+    /**
+     * LoginPane
+     * Sergio and Joao
+     */
+    private GridPane createLogin(){
         GridPane loginPane = new GridPane();
         loginPane.setAlignment(Pos.CENTER);
         loginPane.setHgap(10);
@@ -346,10 +346,6 @@ public class MarchMadnessGUI extends Application {
         titleView.setFitWidth(350);
         titleView.setPreserveRatio(true);
         loginPane.add(titleView, 0, 0, 2, 1);
-
-//        Text welcomeMessage = new Text("March Madness Login");
-//        welcomeMessage.getStyleClass().add("welcomeMessage");
-//        loginPane.add(welcomeMessage, 0, 0, 2, 1);
 
         Label userName = new Label("User Name:");
         loginPane.add(userName, 0, 1);
@@ -398,6 +394,7 @@ public class MarchMadnessGUI extends Application {
                 infoAlert("Please enter a username");
             }
             //yells at the user to have a password
+
             else if(playerPass.equals("")){
                 logout.setDisable(true);
                 infoAlert("Please enter a password");
