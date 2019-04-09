@@ -388,8 +388,8 @@ public class MarchMadnessGUI extends Application {
                  logout.setDisable(true);
             }
             //yells at the user to have a password
-            if(playerPass.equals("")){
-                infoAlert("Please enter a password");
+            if(playerMap.get(name) == null || playerPass.equals("")){
+                infoAlert("Please enter a username and password.");
             }
 
             if (playerMap.get(name) != null) {
